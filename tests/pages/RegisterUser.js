@@ -1,5 +1,4 @@
-// @ts-check
-import { expect } from '@playwright/test'
+const { expect } = require('@playwright/test')
 
 export class RegisterUser {
     constructor(page) {
@@ -10,15 +9,15 @@ export class RegisterUser {
     }
     async openPageRegister() {
         await this.page.click('//a[text()="My Account"]')
-        await expect(
-            this.page.locator('div.u-column2').getByRole('heading')
-        ).toHaveText('Register')
+        await expect(this.page.locator('div.u-column2').getByRole('heading')).toHaveText('Register')
     }
-    async register(email, password) {
+    async registerData(email, password) {
         await this.page.locator('#reg_email').fill(email)
         await this.page.locator('#reg_password').fill(password)
         await this.page.getByRole('button', { name: 'Register' }).click()
-        await this.page.locator('a[href$="customer-logout/"]')
+        const boasVindas = this.page.locator('//a[text()="Dashboard"]')
+        await expect(boasVindas).toBeVisible()
+        await this.page.locator('nav.woocommerce-MyAccount-navigation a[href$="customer-logout/"]').click()
     }
     async duplicRegisterCheckPoint() {
         const errorLi = this.page.locator('ul.woocommerce-error li')
@@ -28,7 +27,6 @@ export class RegisterUser {
         const errorLi = this.page.locator('ul.woocommerce-error li')
         await expect(errorLi).toHaveText(/Please provide a valid email address/)
     }
-
     async invalidPasswordCheckPoint() {
         const errorLi = this.page.locator('ul.woocommerce-error li')
         await expect(errorLi).toHaveText(/Please enter an account password/)

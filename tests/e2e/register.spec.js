@@ -1,29 +1,25 @@
-import { faker } from '@faker-js/faker'
-import { test } from '../support'
+const { faker } = require('@faker-js/faker')
+const { test } = require('../support')
 
 test('registrando usuário', async ({ page }) => {
   const registerEmail = faker.internet.email()
   const registerPassword = faker.internet.password()
-
   await page.register.visit()
   await page.register.openPageRegister()
-  await page.register(registerEmail, registerPassword)
-  await page.register.registerCheckPoint()
+  await page.register.registerData(registerEmail, registerPassword)
 })
 
 test('não deve registrar o mesmo usuário', async ({ page }) => {
   const registerEmail = faker.internet.email()
   const registerPassword = faker.internet.password()
-
   await page.register.visit()
   await page.register.openPageRegister()
-  await page.register(registerEmail, registerPassword)
-  await page.register(registerEmail, registerPassword)
+  await page.register.registerData(registerEmail, registerPassword)
+  await page.register.registerData(registerEmail, registerPassword)
   await page.register.duplicRegisterCheckPoint()
 })
 
 test.describe('não deve registrar com email inválido', () => {
-
   test('registro sem email', async ({ page }) => {
     await page.register.visit()
     await page.register.openPageRegister()
