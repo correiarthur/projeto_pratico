@@ -11,4 +11,4 @@ test('logando usuário', async ({ page }) => {
     await page.locator('nav.woocommerce-MyAccount-navigation a[href$="customer-logout/"]').click()
     await page.login.insertCredentials(registerEmail, registerPassword)
     await page.login.loginCheckPoint()
-});
+})
