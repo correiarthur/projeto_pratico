@@ -15,19 +15,20 @@ export class RegisterUser {
         await this.page.locator('#reg_email').fill(email)
         await this.page.locator('#reg_password').fill(password)
         await this.page.getByRole('button', { name: 'Register' }).click()
+    }
+    async validaCadastro(){
         const boasVindas = this.page.locator('//a[text()="Dashboard"]')
         await expect(boasVindas).toBeVisible()
-        await this.page.locator('nav.woocommerce-MyAccount-navigation a[href$="customer-logout/"]').click()
     }
     async duplicRegisterCheckPoint() {
         const errorLi = this.page.locator('ul.woocommerce-error li')
         await expect(errorLi).toHaveText(/An account is already registered/)
     }
-    async invalidEmailCheckPoint() {
+    async validaMensagemErroEmail() {
         const errorLi = this.page.locator('ul.woocommerce-error li')
         await expect(errorLi).toHaveText(/Please provide a valid email address/)
     }
-    async invalidPasswordCheckPoint() {
+    async validaMensagemErroSenha() {
         const errorLi = this.page.locator('ul.woocommerce-error li')
         await expect(errorLi).toHaveText(/Please enter an account password/)
     }
